@@ -11,8 +11,8 @@ public class ArrayManipulation {
         nums[end] -= q[2];
       }
     }
-    int max = Integer.MIN_VALUE;
-    int tmp = 0;
+    long max = Integer.MIN_VALUE;
+    long tmp = 0;
     for (int i=0; i<n; i++) {
       tmp += nums[i];
       max = Math.max(max, tmp);
