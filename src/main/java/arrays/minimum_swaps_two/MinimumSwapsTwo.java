@@ -10,6 +10,7 @@ public class MinimumSwapsTwo {
       if (arr[i] == i + 1) continue;
 
       swap(arr, i, arr[i] - 1);
+      i--; // keep swapping until the position i is satisfied arr[i] == i + 1
       PrintUtils.print(arr);
       count++;
     }
