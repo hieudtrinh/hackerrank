@@ -52,13 +52,17 @@ public class FindTheNearestClone {
       return -1;
     }
 
-    Integer[] vertices = vertice.toArray(new Integer[0]);
-    Integer fromVertex = vertices[0];
-    Integer toVertex = vertices[1];
+    int shortestPath = ids.length;
+    for (Integer vertex : vertice) {
+      int curPath = findPath(vertex, ids, color, g);
+      shortestPath = Math.min(shortestPath, curPath);
+    }
+    return shortestPath;
+  }
 
+  static int findPath(Integer fromVertex, long[] ids, int color, Map<Integer, Set<Integer>> g) {
     Queue<Integer> queue = new LinkedList<>();
     queue.offer(fromVertex);
-
     int paths = -1;
     Set<Integer> visited = new HashSet<>();
     visited.add(fromVertex);
@@ -67,7 +71,8 @@ public class FindTheNearestClone {
       paths++;
       for (int i = 0; i < size; i++) {
         Integer vertex = queue.poll();
-        if (vertex != null && vertex.equals(toVertex)) {
+        // ids[] based 0 but vertex based 1, so need to -1
+        if (!fromVertex.equals(vertex) && color == ids[vertex-1]) {
           return paths;
         }
 
@@ -79,14 +84,23 @@ public class FindTheNearestClone {
         }
       }
     }
-    return -1;
+    return ids.length;
   }
 
-  public static void main(String[] args) throws IOException {
-    BufferedWriter bufferedWriter =
-        new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+  public static void main(String[] args) { // throws IOException {
+//    BufferedWriter bufferedWriter =
+//        new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+/*
+    5 4
+    1 2
+    1 3
+    2 4
+    3 5
+    1 2 3 3 2
+    2
 
-    String[] graphNodesEdges = scanner.nextLine().split(" ");
+          */
+    String[] graphNodesEdges = scanner.nextLine().trim().split(" ");
     int graphNodes = Integer.parseInt(graphNodesEdges[0].trim());
     int graphEdges = Integer.parseInt(graphNodesEdges[1].trim());
 
@@ -94,18 +108,18 @@ public class FindTheNearestClone {
     int[] graphTo = new int[graphEdges];
 
     for (int i = 0; i < graphEdges; i++) {
-      String[] graphFromTo = scanner.nextLine().split(" ");
+      String[] graphFromTo = scanner.nextLine().trim().split(" ");
       graphFrom[i] = Integer.parseInt(graphFromTo[0].trim());
       graphTo[i] = Integer.parseInt(graphFromTo[1].trim());
     }
 
     long[] ids = new long[graphNodes];
 
-    String[] idsItems = scanner.nextLine().split(" ");
+    String[] idsItems = scanner.nextLine().trim().split(" ");
     scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
     for (int i = 0; i < graphNodes; i++) {
-      long idsItem = Long.parseLong(idsItems[i]);
+      long idsItem = Long.parseLong(idsItems[i].trim());
       ids[i] = idsItem;
     }
 
@@ -114,10 +128,11 @@ public class FindTheNearestClone {
 
     int ans = findShortest(graphEdges, graphFrom, graphTo, ids, val);
 
-    bufferedWriter.write(String.valueOf(ans));
-    bufferedWriter.newLine();
-
-    bufferedWriter.close();
+    System.out.println(ans);
+//    bufferedWriter.write(String.valueOf(ans));
+//    bufferedWriter.newLine();
+//
+//    bufferedWriter.close();
 
     scanner.close();
   }
