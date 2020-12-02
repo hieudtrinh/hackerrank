@@ -10,7 +10,11 @@ public class HuffmanDecodingTest {
     HuffmanDecoding huffmanDecoding = new HuffmanDecoding();
     String encodedString = huffmanDecoding.encode(s);
     System.out.println(encodedString);
+    System.out.println(huffmanDecoding.decode(encodedString));
 
+    s = "ABRACADABRA";
+    encodedString = huffmanDecoding.encode(s);
+    System.out.println(encodedString);
     System.out.println(huffmanDecoding.decode(encodedString));
   }
 

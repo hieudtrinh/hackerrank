@@ -1,5 +1,6 @@
 package tree.huffman_decoding;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -23,7 +24,8 @@ public class HuffmanDecoding {
       arr[c] += 1;
     }
 
-    PriorityQueue<Node> q = new PriorityQueue<>((a, b) -> b.freq - a.freq);
+    PriorityQueue<Node> q = new PriorityQueue<>(Comparator.comparingInt(a -> a.freq));
+    // same : PriorityQueue<Node> q = new PriorityQueue<>((a, b) -> a.freq - b.freq);
     for (int i = 0; i < arr.length; i++) {
       if (arr[i] > 0) {
         q.offer(new HuffmanLeaf(arr[i], (char) i));
@@ -38,6 +40,7 @@ public class HuffmanDecoding {
   }
 
   String encode(String s) {
+    map = new HashMap<>();
     node = buildHuffmanNode(s);
     buildLookUpMap(node, "");
     StringBuilder sb = new StringBuilder();
